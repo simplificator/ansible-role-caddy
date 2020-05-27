@@ -1,0 +1,7 @@
+FROM simplificator/ansible:ubuntu1804
+
+ADD . /etc/ansible/roles/caddy
+
+ADD test/ .
+
+RUN ansible-playbook --connection=local provision-test.yml --extra-vars "is_docker='true'"

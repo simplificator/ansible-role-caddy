@@ -1,0 +1,6 @@
+---
+- name: Restart Caddy
+  service:
+    name: caddy
+    state: restarted
+  when: is_docker is undefined

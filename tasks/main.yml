@@ -1,0 +1,17 @@
+---
+- name: Ensure apt-transport-https is present
+  apt:
+    pkg: "apt-transport-https"
+    state: "present"
+
+- name: "Add Caddy repository"
+  apt_repository:
+    repo: "deb [trusted=yes] https://apt.fury.io/caddy/ /"
+    state: "present"
+    filename: caddy
+
+- name: "Install Caddy"
+  apt:
+    pkg: "caddy"
+    state: "present"
+    update_cache: yes
