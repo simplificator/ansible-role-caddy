@@ -1,7 +1,9 @@
 FROM simplificator/ansible:debian10
 
+ARG playbook
+
 ADD . /etc/ansible/roles/caddy
 
 ADD test/ .
 
-RUN ansible-playbook --connection=local provision-test.yml --extra-vars "is_docker='true'"
+RUN ansible-playbook --connection=local $playbook.yml --extra-vars "is_docker='true'"

@@ -15,3 +15,11 @@
     pkg: "caddy"
     state: "present"
     update_cache: yes
+
+- name: Copy Caddyfile
+  template:
+    src: "Caddyfile.j2"
+    dest: "/etc/caddy/Caddyfile"
+  when: caddy_sites is defined
+  notify:
+    - Restart Caddy

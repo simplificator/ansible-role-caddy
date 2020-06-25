@@ -1,0 +1,26 @@
+#jinja2: trim_blocks:False
+{
+  admin off
+}
+
+{% for site in caddy_sites %}
+{{ site.domain }} {
+  {% if site.whitelist is defined %}
+  @whitelist {
+    remote_ip {%- for ip in site.whitelist %} {{ ip }}{% endfor %}
+  }
+
+  @not_whitelist {
+    not remote_ip {%- for ip in site.whitelist %} {{ ip }}{% endfor %}
+  }
+
+  reverse_proxy @whitelist {{ site.reverse_proxy }}
+  respond @not_whitelist 404
+  {% else %}
+  reverse_proxy {{ site.reverse_proxy }}
+  {% endif %}
+  {% if site.certificate_file is defined %}
+  tls {{ site.certificate_file }} {{ site.certificate_key }}
+  {% endif %}
+}
+{% endfor %}

@@ -9,12 +9,12 @@ blocks:
   - name: "Test"
     task:
       jobs:
-      - name: Test role against Debian 10
+      - name: Test role
+        matrix:
+        - env_var: DOCKER_FILE
+          values: [ "Dockerfile-test-ubuntu1804", "Dockerfile-test-debian10" ]
+        - env_var: ANSIBLE_PLAYBOOK
+          values: [ "provision-test-installation", "provision-test-proxy" ]
         commands:
           - checkout
-          - docker build --file test/Dockerfile-test-debian10 .
-
-      - name: Test role against Ubuntu 18.04
-        commands:
-          - checkout
-          - docker build --file test/Dockerfile-test-ubuntu1804 .
+          - docker build --file test/$DOCKER_FILE --build-arg playbook=$ANSIBLE_PLAYBOOK .
