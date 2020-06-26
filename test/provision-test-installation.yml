@@ -1,0 +1,26 @@
+---
+- hosts: "localhost"
+  become: yes
+
+  vars:
+    caddy_sites:
+    - domain: "example.com"
+      reverse_proxy: "192.168.50.2"
+      allowlist: &default_allowlist
+        - "8.8.8.8/32"
+
+  tasks:
+    - name: Copy file to test results
+      copy:
+        src: "{{ playbook_dir }}/Caddyfile.expected"
+        dest: "/etc/caddy/Caddyfile"
+      register: result
+
+    - name: "Fail if template has been changed"
+      fail:
+        msg: "Caddyfile has been changed!"
+      when: result is changed
+
+  roles:
+    - role: caddy
+      tags: caddy

@@ -1,0 +1,20 @@
+{
+  admin off
+}
+
+
+example.com {
+  
+  @allowlist {
+    remote_ip 8.8.8.8/32
+  }
+
+  @not_allowlist {
+    not remote_ip 8.8.8.8/32
+  }
+
+  reverse_proxy @allowlist 192.168.50.2
+  respond @not_allowlist 404
+  
+  
+}
