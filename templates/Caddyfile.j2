@@ -5,17 +5,17 @@
 
 {% for site in caddy_sites %}
 {{ site.domain }} {
-  {% if site.whitelist is defined %}
-  @whitelist {
-    remote_ip {%- for ip in site.whitelist %} {{ ip }}{% endfor %}
+  {% if site.allowlist is defined %}
+  @allowlist {
+    remote_ip {%- for ip in site.allowlist %} {{ ip }}{% endfor %}
   }
 
-  @not_whitelist {
-    not remote_ip {%- for ip in site.whitelist %} {{ ip }}{% endfor %}
+  @not_allowlist {
+    not remote_ip {%- for ip in site.allowlist %} {{ ip }}{% endfor %}
   }
 
-  reverse_proxy @whitelist {{ site.reverse_proxy }}
-  respond @not_whitelist 404
+  reverse_proxy @allowlist {{ site.reverse_proxy }}
+  respond @not_allowlist 404
   {% else %}
   reverse_proxy {{ site.reverse_proxy }}
   {% endif %}

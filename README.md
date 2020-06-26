@@ -10,7 +10,7 @@ If you only want to install Caddy, you don't need to set any variables. If you w
 * `reverse_proxy`: The path to the app where you want to forward the request.
 * `certificate_file`: You can set this variable if you want to provide the certificate by yourself (Optional). The certificate needs permissions `0640`, with root as Owner and Caddy as Group.
 * `certificate_key`: You can set this variable if you want to provide the certificate by yourself (Optional).
-* `whitelist`: An array if IP addresses in CIDR-notation which are allowed to access this site (Optional). All other visitors receive a 404 error.
+* `allowlist`: An array if IP addresses in CIDR-notation which are allowed to access this site (Optional). All other visitors receive a 404 error.
 
 ## Sample playbooks
 
