@@ -9,6 +9,18 @@
       allowlist: &default_allowlist
         - "8.8.8.8/32"
 
+  tasks:
+    - name: Copy file to test results
+      copy:
+        src: "{{ playbook_dir }}/Caddyfile.result"
+        dest: "/etc/caddy/Caddyfile"
+      register: result
+
+    - name: "Fail if template has been changed"
+      fail:
+        msg: "Caddyfile has been changed!"
+      when: result is changed
+
   roles:
     - role: caddy
       tags: caddy
