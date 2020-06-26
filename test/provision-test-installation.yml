@@ -12,7 +12,7 @@
   tasks:
     - name: Copy file to test results
       copy:
-        src: "{{ playbook_dir }}/Caddyfile.result"
+        src: "{{ playbook_dir }}/Caddyfile.expected"
         dest: "/etc/caddy/Caddyfile"
       register: result
 
