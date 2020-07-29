@@ -23,4 +23,11 @@
   tls {{ site.certificate_file }} {{ site.certificate_key }}
   {% endif %}
 }
+
+{% if site.additional_forwarding_ports | length > 0 %}
+{{ (["http://"] | product([site.domain]) | map("join")) | product(site.additional_forwarding_ports) | map("join", ":") | join(", ") }} {
+  redir http://{{ site.domain }}{uri} permanent
+}
+{% endif %}
+
 {% endfor %}

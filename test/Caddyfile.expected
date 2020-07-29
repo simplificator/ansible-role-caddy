@@ -18,3 +18,10 @@ example.com {
   
   
 }
+
+
+http://example.com:8080, http://example.com:1337 {
+  redir http://example.com{uri} permanent
+}
+
+
