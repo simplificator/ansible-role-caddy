@@ -5,7 +5,9 @@
   vars:
     caddy_sites:
     - domain: "example.com"
-      reverse_proxy: "192.168.50.2"
+      routes:
+        - path: ""
+          reverse_proxy_destination: "192.168.50.2"
       allowlist: &default_allowlist
         - "8.8.8.8/32"
       additional_forwarding_ports:
