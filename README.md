@@ -11,7 +11,14 @@ If you only want to install Caddy, you don't need to set any variables. If you w
 * `certificate_file`: You can set this variable if you want to provide the certificate by yourself (Optional). The certificate needs permissions `0640`, with root as Owner and Caddy as Group.
 * `certificate_key`: You can set this variable if you want to provide the certificate by yourself (Optional).
 * `domain`: The domain caddy should listen to.
-* `reverse_proxy`: The path to the app where you want to forward the request.
+
+Afterwards, you can define a list of `routes` composing of the following values:
+
+* `path`: Path that should be matched. Let it empty for everything or e.g. `/api/*` for something specific.
+* `reverse_proxy_destination`: Where the requested should be proxied.
+* `strip_prefix`: If set, the matched `path` will be removed from the request to the destination system. This means, if somebody requests the route `/api/v1/hello` at the reverse proxy and you set `/api/*` as path, the request will be sent as `/v1/hello` to the destination system.
+
+Certificates, domain etc. are always defined for one site and cannot be redefined for a route.
 
 ## Sample playbooks
 

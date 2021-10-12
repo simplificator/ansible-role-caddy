@@ -5,29 +5,40 @@
 
 {% for site in caddy_sites %}
 {{ site.domain }} {
-  {% if site.allowlist is defined %}
+  {%- if site.allowlist is defined %}
   @allowlist {
-    remote_ip {%- for ip in site.allowlist %} {{ ip }}{% endfor %}
+    remote_ip {% for ip in site.allowlist %} {{ ip }}{% endfor %}
   }
 
   @not_allowlist {
-    not remote_ip {%- for ip in site.allowlist %} {{ ip }}{% endfor %}
+    not remote_ip {% for ip in site.allowlist %} {{ ip }}{% endfor %}
   }
-
-  reverse_proxy @allowlist {{ site.reverse_proxy }}
-  respond @not_allowlist 404
-  {% else %}
-  reverse_proxy {{ site.reverse_proxy }}
   {% endif %}
+
+  {%- for route in site.routes %}
+  {% if route.strip_prefix is defined and route.strip_prefix %}
+  handle_path {{ route.path }} {
+  {% else %}
+  handle {{ route.path }} {
+  {%- endif %}
+    {%- if site.allowlist is defined %}
+    reverse_proxy @allowlist {{ route.reverse_proxy_destination }}
+    respond @not_allowlist 404
+    {%- else %}
+    reverse_proxy {{ route.reverse_proxy_destination }}
+    {%- endif %}
+  }
+  {%- endfor %}
+  
   {% if site.certificate_file is defined %}
   tls {{ site.certificate_file }} {{ site.certificate_key }}
-  {% endif %}
+  {% endif -%}
 }
 
 {% if site.additional_forwarding_ports | length > 0 %}
 {{ (["http://"] | product([site.domain]) | map("join")) | product(site.additional_forwarding_ports) | map("join", ":") | join(", ") }} {
   redir http://{{ site.domain }}{uri} permanent
 }
-{% endif %}
+{%- endif %}
 
 {% endfor %}
