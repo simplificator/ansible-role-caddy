@@ -1,8 +1,14 @@
 # Ansible Role: Caddy
 
+[![CI](https://github.com/simplificator/ansible-role-caddy/workflows/CI/badge.svg?event=push)](https://github.com/simplificator/ansible-role-caddy/actions?query=workflow%3ACI)
+
 This role installs a plain caddy server on a Debian-based system and can, if you want, also place a basic reverse proxy configuration.
 
-## Variables
+## Requirements
+
+N/A
+
+## Role Variables
 
 If you only want to install Caddy, you don't need to set any variables. If you want to configure Caddy as a reverse proxy as well, you can provide an array of objects named `caddy_sites` with the following values:
 
@@ -20,49 +26,44 @@ Afterwards, you can define a list of `routes` composing of the following values:
 
 Certificates, domain etc. are always defined for one site and cannot be redefined for a route.
 
-## Sample playbooks
+## Dependencies
+
+None.
+
+## Example Playbooks
 
 Basic installation:
 
 ```yaml
 ---
-- hosts: "reverse_proxy_servers"
-  become: yes
+- name: Converge
+  hosts: all
+  become: true
 
   roles:
-    - role: caddy
-      become: true
+    - role: simplificator.caddy
 ```
 
 With reverse proxy configuration:
 
 ```yaml
 ---
-- hosts: "reverse_proxy_servers"
-  become: yes
-
-  tasks:
-    - name: Write out certificates
-      copy:
-        content: "{{ vault_simpli_self_signed_certificate }}"
-        dest: "/etc/caddy/simpli.cert.pem"
-        group: caddy
-        owner: root
-        mode: 0640
-      notify:
-        - Restart Caddy
-
-    - name: Write out certificate keys
-      copy:
-        content: "{{ vault_simpli_self_signed_key }}"
-        dest: "/etc/caddy/simpli.key.pem"
-        group: caddy
-        owner: root
-        mode: 0640
-      notify:
-        - Restart Caddy
+- name: Converge
+  hosts: all
+  become: true
 
   roles:
-    - role: caddy
-      become: true
+    - role: simplificator.caddy
+
+  vars:
+    caddy_sites:
+      - domain: example.com
+        routes:
+          - path: ''
+            reverse_proxy_destination: 192.168.50.2
+        allowlist:
+          - 8.8.8.8/32
+        additional_forwarding_ports:
+          - '8080'
+          - '1337'
 ```
