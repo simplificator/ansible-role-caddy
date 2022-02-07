@@ -1,0 +1,11 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+    - name: Check Caddy service is running
+      service:
+        name: caddy
+        state: running
+      check_mode: true
+      register: presence
+      failed_when: presence.changed

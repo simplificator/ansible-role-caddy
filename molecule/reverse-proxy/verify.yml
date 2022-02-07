@@ -1,0 +1,19 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+    - name: Check Caddy service is running
+      service:
+        name: caddy
+        state: running
+      check_mode: true
+      register: presence
+      failed_when: presence.changed
+
+    - name: Copy file to test results
+      copy:
+        src: "{{ playbook_dir }}/Caddyfile.expected"
+        dest: "/etc/caddy/Caddyfile"
+      check_mode: true
+      register: presence
+      failed_when: presence.changed
