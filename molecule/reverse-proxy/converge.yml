@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  roles:
+    - role: simplificator.caddy
+
+  vars:
+    caddy_sites:
+      - domain: example.com
+        routes:
+          - path: ''
+            reverse_proxy_destination: 192.168.50.2
+        allowlist:
+          - 8.8.8.8/32
+        additional_forwarding_ports:
+          - '8080'
+          - '1337'

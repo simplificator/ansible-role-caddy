@@ -1,4 +1,4 @@
-# Ansible role Caddy
+# Ansible Role: Caddy
 
 This role installs a plain caddy server on a Debian-based system and can, if you want, also place a basic reverse proxy configuration.
 

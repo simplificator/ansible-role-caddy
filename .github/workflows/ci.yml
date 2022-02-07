@@ -1,0 +1,48 @@
+---
+name: CI
+"on":
+  pull_request:
+  push:
+  schedule:
+    - cron: "30 8 * * 1"
+
+defaults:
+  run:
+    working-directory: "simplificator.caddy"
+
+jobs:
+  molecule:
+    name: Molecule
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scenario:
+          - default
+          - reverse-proxy
+        distro:
+          - ubuntu1804
+          - ubuntu2004
+          - debian9
+          - debian10
+          - debian11
+
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+        with:
+          path: "simplificator.caddy"
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Install test dependencies.
+        run: pip3 install ansible molecule[docker] docker
+
+      - name: Run Molecule tests.
+        run: molecule test --scenario-name ${{ matrix.scenario }}
+        env:
+          PY_COLORS: "1"
+          ANSIBLE_FORCE_COLOR: "1"
+          MOLECULE_DISTRO: ${{ matrix.distro }}
