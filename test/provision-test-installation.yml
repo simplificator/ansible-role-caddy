@@ -1,7 +1,0 @@
----
-- hosts: "localhost"
-  become: yes
-
-  roles:
-    - role: caddy
-      tags: caddy
