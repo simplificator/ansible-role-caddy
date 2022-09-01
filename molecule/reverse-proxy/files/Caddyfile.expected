@@ -11,7 +11,9 @@ example.com {
   @not_allowlist {
     not remote_ip  8.8.8.8/32
   }
-  
+
+  redir / permanent
+  redir /about-us /about 401
   
   handle  {
     reverse_proxy @allowlist 192.168.50.2
