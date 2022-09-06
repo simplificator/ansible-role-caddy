@@ -15,9 +15,11 @@
   }
   {% endif %}
 
+  {%- if site.redirects is defined %}
   {%- for redir in site.redirects %}
   redir {% if redir.source is defined and redir.source %}{{ redir.source }} {% endif %}{{ redir.target }}{% if redir.code is defined and redir.code%} {{ redir.code }}{% else %} permanent{% endif %}
   {%- endfor %}
+  {%- endif %}
 
   {%- for route in site.routes %}
   {% if route.strip_prefix is defined and route.strip_prefix %}
