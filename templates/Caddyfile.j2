@@ -41,7 +41,7 @@
   {% endif -%}
 }
 
-{% if site.additional_forwarding_ports | length > 0 %}
+{% if (site.additional_forwarding_port is defined) and (site.additional_forwarding_ports | length > 0) %}
 {{ (["http://"] | product([site.domain]) | map("join")) | product(site.additional_forwarding_ports) | map("join", ":") | join(", ") }} {
   redir http://{{ site.domain }}{uri} permanent
 }
