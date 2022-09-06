@@ -27,3 +27,13 @@ http://example.com:8080, http://example.com:1337 {
   redir http://example.com{uri} permanent
 }
 
+
+test.com {
+
+  handle  {
+    reverse_proxy @allowlist 192.168.50.2
+    respond @not_allowlist 404
+  }
+  
+  }
+

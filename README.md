@@ -50,7 +50,7 @@ Basic installation:
     - role: simplificator.caddy
 ```
 
-With reverse proxy configuration:
+With reverse proxy configuration and redirects:
 
 ```yaml
 ---
@@ -67,6 +67,9 @@ With reverse proxy configuration:
         routes:
           - path: ''
             reverse_proxy_destination: 192.168.50.2
+        redirects:
+          - source: ''
+            target: '/'
         allowlist:
           - 8.8.8.8/32
         additional_forwarding_ports:
