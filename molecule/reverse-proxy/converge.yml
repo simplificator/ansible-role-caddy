@@ -23,6 +23,7 @@
         additional_forwarding_ports:
           - '8080'
           - '1337'
+        additional_template_path: "./templates/additions.j2"
       - domain: test.com
         routes:
           - path: ''

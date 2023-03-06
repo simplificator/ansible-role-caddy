@@ -11,7 +11,16 @@ example.com {
   @not_allowlist {
     not remote_ip  8.8.8.8/32
   }
-
+  
+  handle /basic/auth* {        
+  basicauth {
+    Bob $2a$14$Zkx19XLiW6VYouLHR5NmfOFU0z2GTNmpkT/5qqR7hx4IjWJPDhjvG
+  }        
+  
+  uri replace /basic/auth /api/auth
+  reverse_proxy @allowlist the-api.com:3000
+  respond @not_allowlist 404
+}
   redir / permanent
   redir /about-us /about 401
   
@@ -29,11 +38,12 @@ http://example.com:8080, http://example.com:1337 {
 
 
 test.com {
-
+  
   handle  {
-    reverse_proxy @allowlist 192.168.50.2
-    respond @not_allowlist 404
+    reverse_proxy 192.168.50.1
   }
   
   }
+
+
 
