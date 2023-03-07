@@ -1,0 +1,14 @@
+handle /basic/auth* {        
+  basicauth {
+    Bob $2a$14$Zkx19XLiW6VYouLHR5NmfOFU0z2GTNmpkT/5qqR7hx4IjWJPDhjvG
+  }        
+  
+  uri replace /basic/auth /api/auth
+  
+  {%- if site.allowlist is defined %}
+  reverse_proxy @allowlist the-api.com:3000
+  respond @not_allowlist 404
+  {%- else %}
+  reverse_proxy the-api.com:3000
+  {%- endif %}
+}
