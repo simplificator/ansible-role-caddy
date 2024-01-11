@@ -28,7 +28,7 @@
   {%- for route in site.routes %}
   {% if route.strip_prefix is defined and route.strip_prefix %}
   handle_path {{ route.path }} {
-  {% else %}
+  {%- else %}
   handle {{ route.path }} {
   {%- endif %}
     {%- if site.allowlist is defined and not (route.public | default(false)) %}
@@ -42,7 +42,7 @@
   
   {% if site.certificate_file is defined %}
   tls {{ site.certificate_file }} {{ site.certificate_key }}
-  {% endif -%}
+  {%- endif %}
 }
 
 {% if (site.additional_forwarding_ports is defined) and (site.additional_forwarding_ports | length > 0) %}
