@@ -21,6 +21,7 @@ If you only want to install Caddy, you don't need to set any variables. If you w
 Afterwards, you can define a list of `routes` composing of the following values:
 
 * `path`: Path that should be matched. Let it empty for everything or e.g. `/api/*` for something specific.
+* `public`: If `true` the site's `allowlist` will not be applied to this route, thus making this route publicly available. Defaults to `false`.
 * `reverse_proxy_destination`: Where the requested should be proxied.
 * `strip_prefix`: If set, the matched `path` will be removed from the request to the destination system. This means, if somebody requests the route `/api/v1/hello` at the reverse proxy and you set `/api/*` as path, the request will be sent as `/v1/hello` to the destination system.
 
