@@ -28,3 +28,13 @@
         routes:
           - path: ''
             reverse_proxy_destination: 192.168.50.1
+      - domain: mixed.example.com
+        routes:
+          - path: '/public/*'
+            ignore_allowlist: true
+            reverse_proxy_destination: 192.168.50.3
+          - path: '/protected/*'
+            strip_prefix: true
+            reverse_proxy_destination: 192.168.50.4
+        allowlist:
+          - 8.8.8.8/32
