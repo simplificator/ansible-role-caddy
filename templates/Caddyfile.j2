@@ -31,7 +31,7 @@
   {%- else %}
   handle {{ route.path }} {
   {%- endif %}
-    {%- if site.allowlist is defined and not (route.public | default(false)) %}
+    {%- if site.allowlist is defined and not (route.ignore_allowlist| default(false)) %}
     reverse_proxy @allowlist {{ route.reverse_proxy_destination }}
     respond @not_allowlist 404
     {%- else %}
