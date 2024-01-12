@@ -12,12 +12,13 @@ example.com {
     not remote_ip  8.8.8.8/32
   }
   
-  handle /basic/auth* {        
+  handle /basic/auth* {
   basicauth {
     Bob $2a$14$Zkx19XLiW6VYouLHR5NmfOFU0z2GTNmpkT/5qqR7hx4IjWJPDhjvG
-  }        
-  
+  }
+
   uri replace /basic/auth /api/auth
+
   reverse_proxy @allowlist the-api.com:3000
   respond @not_allowlist 404
 }
@@ -29,7 +30,8 @@ example.com {
     respond @not_allowlist 404
   }
   
-  }
+  
+}
 
 
 http://example.com:8080, http://example.com:1337 {
@@ -43,7 +45,33 @@ test.com {
     reverse_proxy 192.168.50.1
   }
   
+  
+}
+
+
+
+
+mixed.example.com {
+  @allowlist {
+    remote_ip  8.8.8.8/32
   }
+
+  @not_allowlist {
+    not remote_ip  8.8.8.8/32
+  }
+  
+  
+  handle /public/* {
+    reverse_proxy 192.168.50.3
+  }
+  
+  handle_path /protected/* {
+    reverse_proxy @allowlist 192.168.50.4
+    respond @not_allowlist 404
+  }
+  
+  
+}
 
 
 
