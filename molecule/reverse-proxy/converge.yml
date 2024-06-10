@@ -13,14 +13,14 @@
         routes:
           - path: ''
             reverse_proxy_destination: 192.168.50.2
+            allowlist:
+              - 8.8.8.8/32
         redirects:
           - source: ''
             target: /
           - source: '/about-us'
             target: '/about'
             code: 401
-        allowlist:
-          - 8.8.8.8/32
         additional_forwarding_ports:
           - '8080'
           - '1337'
@@ -34,8 +34,10 @@
           - path: '/public/*'
             ignore_allowlist: true
             reverse_proxy_destination: 192.168.50.3
+            allowlist:
+              - 8.8.8.8/32
           - path: '/protected/*'
             strip_prefix: true
             reverse_proxy_destination: 192.168.50.4
-        allowlist:
-          - 8.8.8.8/32
+            allowlist:
+              - 8.8.8.8/32
