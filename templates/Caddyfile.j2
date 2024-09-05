@@ -5,7 +5,6 @@
 
 {% for site in caddy_sites %}
 {{ site.domain }} {
-
   {% if site.useragent_blocklist is defined %}
   @badbots {
     {% for ua in site.useragent_blocklist %}
