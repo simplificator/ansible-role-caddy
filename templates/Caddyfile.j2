@@ -5,17 +5,17 @@
 
 {% for site in caddy_sites %}
 {{ site.domain }} {
-  {% if site.useragent_blocklist is defined %}
+  {%- if site.useragent_blocklist is defined %}
   @badbots {
-    {% for ua in site.useragent_blocklist %}
+    {%- for ua in site.useragent_blocklist %}
     header User-Agent *{{ ua }}*
-    {% endfor %}
+    {%- endfor %}
   }
 
   handle @badbots {
     abort
   }
-  {% endif %}
+  {%- endif %}
 
   {%- if site.allowlist is defined %}
   @allowlist {
