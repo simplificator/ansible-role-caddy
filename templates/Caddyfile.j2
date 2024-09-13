@@ -13,8 +13,11 @@
   }
 
   handle @badbots {
-    abort
+      respond 403 {
+          body "Access forbidden."
+      }
   }
+
   {%- endif %}
 
   {%- if site.allowlist is defined %}
