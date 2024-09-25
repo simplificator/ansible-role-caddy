@@ -8,7 +8,7 @@
   {%- if site.useragent_blocklist is defined %}
   @badbots {
     {%- for ua in site.useragent_blocklist %}
-    header User-Agent *{{ ua }}*
+    header User-Agent {{ ua }}
     {%- endfor %}
   }
 

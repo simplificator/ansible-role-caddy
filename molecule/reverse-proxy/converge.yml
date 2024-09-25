@@ -21,7 +21,7 @@
         allowlist:
           - 8.8.8.8/32
         useragent_blocklist:
-          - amazonbot
+          - "*amazonbot*"
         additional_forwarding_ports:
           - '8080'
           - '1337'
