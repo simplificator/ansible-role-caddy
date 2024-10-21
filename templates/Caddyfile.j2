@@ -5,17 +5,15 @@
 
 {% for site in caddy_sites %}
 {{ site.domain }} {
-  {% for route in site.routes %}
-  {%- if route.allowlist is defined%}
-  @allowlist{{loop.index}} {
-    remote_ip {% for ip in route.allowlist %} {{ ip }}{% endfor %}
+  {%- if site.allowlist is defined %}
+  @allowlist {
+    remote_ip {% for ip in site.allowlist %} {{ ip }}{% endfor %}
   }
 
-  @not_allowlist{{loop.index}} {
-    not remote_ip {% for ip in route.allowlist %} {{ ip }}{% endfor %}
+  @not_allowlist {
+    not remote_ip {% for ip in site.allowlist %} {{ ip }}{% endfor %}
   }
   {% endif %}
-  {% endfor %}
 
   {%- if site.additional_template_path is defined %}
   {% include site.additional_template_path %}
@@ -33,19 +31,11 @@
   {%- else %}
   handle {{ route.path }} {
   {%- endif %}
-    {%- if route.allowlist is defined and not (route.ignore_allowlist| default(false)) %}
-    reverse_proxy @allowlist{{loop.index}} {{ route.reverse_proxy_destination }}{%- if site.tls_insecure%} {
-      transport http {
-          tls_insecure_skip_verify
-      }
-    }{%- endif %}
-    respond @not_allowlist{{loop.index}} 404
+    {%- if site.allowlist is defined and not (route.ignore_allowlist| default(false)) %}
+    reverse_proxy @allowlist {{ route.reverse_proxy_destination }}
+    respond @not_allowlist 404
     {%- else %}
-    reverse_proxy {{ route.reverse_proxy_destination }}{%- if site.tls_insecure%} {
-      transport http {
-          tls_insecure_skip_verify
-      }
-    }{%- endif %}
+    reverse_proxy {{ route.reverse_proxy_destination }}
     {%- endif %}
   }
   {%- endfor %}

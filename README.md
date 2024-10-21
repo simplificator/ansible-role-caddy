@@ -13,7 +13,7 @@ N/A
 If you only want to install Caddy, you don't need to set any variables. If you want to configure Caddy as a reverse proxy as well, you can provide an array of objects named `caddy_sites` with the following values:
 
 * `additional_forwarding_ports`: Allows to define a list with additional ports where Caddy should listen for this domain and forward to HTTPS.
-* `allowlist`: An array if IP addresses in CIDR-notation which are allowed to access this route (Optional). All other visitors receive a 404 error.
+* `allowlist`: An array if IP addresses in CIDR-notation which are allowed to access this site (Optional). All other visitors receive a 404 error.
 * `certificate_file`: You can set this variable if you want to provide the certificate by yourself (Optional). The certificate needs permissions `0640`, with root as Owner and Caddy as Group.
 * `certificate_key`: You can set this variable if you want to provide the certificate by yourself (Optional).
 * `domain`: The domain caddy should listen to.
@@ -67,15 +67,14 @@ With reverse proxy configuration and redirects:
   vars:
     caddy_sites:
       - domain: example.com
-        tls_insecure: true
         routes:
           - path: ''
             reverse_proxy_destination: 192.168.50.2
-            allowlist:
-              - 8.8.8.8/32
         redirects:
           - source: ''
             target: '/'
+        allowlist:
+          - 8.8.8.8/32
         additional_forwarding_ports:
           - '8080'
           - '1337'
