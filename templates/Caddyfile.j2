@@ -5,6 +5,21 @@
 
 {% for site in caddy_sites %}
 {{ site.domain }} {
+  {%- if site.useragent_blocklist is defined %}
+  @badbots {
+    {%- for ua in site.useragent_blocklist %}
+    header User-Agent {{ ua }}
+    {%- endfor %}
+  }
+
+  handle @badbots {
+      respond 403 {
+          body "Access forbidden."
+      }
+  }
+
+  {%- endif %}
+
   {%- if site.allowlist is defined %}
   @allowlist {
     remote_ip {% for ip in site.allowlist %} {{ ip }}{% endfor %}

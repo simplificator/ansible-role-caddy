@@ -4,6 +4,16 @@
 
 
 example.com {
+  @badbots {
+    header User-Agent *amazonbot*
+  }
+
+  handle @badbots {
+      respond 403 {
+          body "Access forbidden."
+      }
+  }
+
   @allowlist {
     remote_ip  8.8.8.8/32
   }
