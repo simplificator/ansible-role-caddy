@@ -18,6 +18,7 @@ If you only want to install Caddy, you don't need to set any variables. If you w
 * `certificate_file`: You can set this variable if you want to provide the certificate by yourself (Optional). The certificate needs permissions `0640`, with root as Owner and Caddy as Group.
 * `certificate_key`: You can set this variable if you want to provide the certificate by yourself (Optional).
 * `domain`: The domain caddy should listen to.
+* `default_response_code`: The code caddy will respond if the route is not defined. If not set, Caddy default behavior responds with code `200`.
 
 Afterwards, you can define a list of `routes` composing of the following values:
 
