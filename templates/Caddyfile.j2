@@ -58,6 +58,10 @@
   {% if site.certificate_file is defined %}
   tls {{ site.certificate_file }} {{ site.certificate_key }}
   {%- endif %}
+
+  {% if site.default_response_code is defined %}
+  respond {{ site.default_response_code }}
+  {%- endif %}
 }
 
 {% if (site.additional_forwarding_ports is defined) and (site.additional_forwarding_ports | length > 0) %}

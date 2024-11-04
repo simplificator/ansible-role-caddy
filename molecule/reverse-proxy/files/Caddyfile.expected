@@ -40,7 +40,7 @@ example.com {
     respond @not_allowlist 404
   }
   
-  
+  respond 404
 }
 
 
