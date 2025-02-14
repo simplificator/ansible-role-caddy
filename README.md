@@ -69,6 +69,7 @@ With reverse proxy configuration and redirects:
   vars:
     caddy_sites:
       - domain: example.com
+        tls_insecure: true
         routes:
           - path: ''
             reverse_proxy_destination: 192.168.50.2

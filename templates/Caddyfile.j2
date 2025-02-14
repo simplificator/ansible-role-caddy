@@ -47,10 +47,18 @@
   handle {{ route.path }} {
   {%- endif %}
     {%- if site.allowlist is defined and not (route.ignore_allowlist| default(false)) %}
-    reverse_proxy @allowlist {{ route.reverse_proxy_destination }}
+    reverse_proxy @allowlist {{ route.reverse_proxy_destination }}{%- if site.tls_insecure%} {
+      transport http {
+          tls_insecure_skip_verify
+      }
+    }{%- endif %}
     respond @not_allowlist 404
     {%- else %}
-    reverse_proxy {{ route.reverse_proxy_destination }}
+    reverse_proxy {{ route.reverse_proxy_destination }}{%- if site.tls_insecure%} {
+      transport http {
+          tls_insecure_skip_verify
+      }
+    }{%- endif %}
     {%- endif %}
   }
   {%- endfor %}
